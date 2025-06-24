@@ -1,4 +1,4 @@
-# myutils/api_wrappers/rate_limiter.py
+# DonyanUtils/api_wrappers/rate_limiter.py
 import time
 import threading
 from collections import deque

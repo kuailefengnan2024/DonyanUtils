@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='myutils',
+    name='DonyanUtils',
     version='0.1.0',
     description='My personal Python utility library',
     author='Your Name',
     author_email='your.email@example.com',
-    packages=find_packages(), # Automatically find all packages under 'myutils'
+    packages=find_packages(), # Automatically find all packages under 'DonyanUtils'
     install_requires=[
         'requests',
         'Pillow', # For placeholder image

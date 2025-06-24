@@ -1,4 +1,4 @@
-# myutils/file_system/parsers.py
+# DonyanUtils/file_system/parsers.py
 import re
 
 def parse_key_value_md(filepath, section_separator='||', item_separator=' - ', encoding='utf-8'):
