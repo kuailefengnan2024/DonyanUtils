@@ -6,17 +6,17 @@ setup(
     description='My personal Python utility library',
     author='Your Name',
     author_email='your.email@example.com',
-    packages=find_packages(), # Automatically find all packages under 'DonyanUtils'
+    packages=find_packages(), # 自动查找'DonyanUtils'下的所有包
     install_requires=[
         'requests',
-        'Pillow', # For placeholder image
-        'volcenginesdkarkruntime', # For Volcengine clients
-        # Add other dependencies here
+        'Pillow', # 用于占位符图像
+        'volcenginesdkarkruntime', # 用于火山引擎客户端
+        # 在此添加其他依赖项
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License', # Choose your license
+        'License :: OSI Approved :: MIT License', # 选择您的许可证
         'Operating System :: OS Independent',
     ],
-    python_requires='>=3.7', # Specify your minimum Python version
+    python_requires='>=3.7', # 指定您的最低Python版本
 )

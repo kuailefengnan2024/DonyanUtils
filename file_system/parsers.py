@@ -3,15 +3,15 @@ import re
 
 def parse_key_value_md(filepath, section_separator='||', item_separator=' - ', encoding='utf-8'):
     """
-    Parses a markdown file with sections and key-value items.
-    Returns a list of dictionaries, where each dictionary represents a section,
-    and contains a list of (key, value) tuples.
-    Example MD structure:
-    Category1 - ItemA1
-    Category1 - ItemA2
+    解析带有章节和键值项的markdown文件。
+    返回字典列表，每个字典代表一个章节，
+    并包含(键, 值)元组的列表。
+    示例MD结构：
+    类别1 - 项目A1
+    类别1 - 项目A2
     ||
-    Region1 - SceneX
-    Region1 - SceneY
+    区域1 - 场景X
+    区域1 - 场景Y
     """
     from .io_helpers import read_text_file # Local import to avoid circular dependency if called directly
     content = read_text_file(filepath, encoding)
@@ -22,7 +22,7 @@ def parse_key_value_md(filepath, section_separator='||', item_separator=' - ', e
     sections = content.strip().split(section_separator)
 
     for section_content in sections:
-        section_data = {"name": f"section_{len(parsed_data)+1}", "items": []} # Default name
+        section_data = {"name": f"section_{len(parsed_data)+1}", "items": []} # 默认名称
         lines = section_content.strip().split('\n')
         current_items = []
         for line in lines:
@@ -35,9 +35,9 @@ def parse_key_value_md(filepath, section_separator='||', item_separator=' - ', e
                 value = parts[1].strip()
                 current_items.append((key, value))
             else:
-                # Handle lines that don't match the key-value structure,
-                # e.g., as part of a multi-line value or just single entries
-                current_items.append((None, line)) # Or ((line, None)) or skip
+                # 处理不符合键值结构的行，
+                # 例如，作为多行值的一部分或仅单个条目
+                current_items.append((None, line)) # 或 ((line, None)) 或跳过
         if current_items:
              section_data["items"] = current_items
         parsed_data.append(section_data)
@@ -47,22 +47,22 @@ def parse_key_value_md(filepath, section_separator='||', item_separator=' - ', e
 
 def read_separated_records(filepath, separator_regex=r"\n\n==================================================\n\n", encoding='utf-8'):
     """
-    Reads records from a file, where records are separated by a given string or regex.
+    从文件中读取记录，记录由给定的字符串或正则表达式分隔。
     """
     from .io_helpers import read_text_file
     content = read_text_file(filepath, encoding)
     if content is None:
         return []
 
-    # Using re.split to handle complex separators and keep empty strings if needed
-    # (though usually we strip and filter them)
+    # 使用re.split处理复杂的分隔符，如果需要的话保留空字符串
+    # （尽管通常我们会去除和过滤它们）
     records = re.split(separator_regex, content.strip())
     return [record.strip() for record in records if record.strip()]
 
 
 def write_separated_records(records, filepath, separator="\n\n==================================================\n\n", encoding='utf-8'):
     """
-    Writes a list of records to a file, joined by a separator.
+    将记录列表写入文件，用分隔符连接。
     """
     from .io_helpers import write_text_file
     content = separator.join(records)

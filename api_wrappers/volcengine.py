@@ -5,11 +5,11 @@ from volcenginesdkarkruntime import Ark # 假设已安装
 # from .base_client import BaseAPIClient # 如果使用BaseAPIClient
 
 # -----------------------------------------------
-# Volcengine Ark Text Client (豆包等文本模型)
+# 火山引擎Ark文本客户端 (豆包等文本模型)
 # -----------------------------------------------
 class VolcengineArkTextClient:
     DEFAULT_RETRY_COUNT = 3
-    DEFAULT_TIMEOUT = 60 # seconds
+    DEFAULT_TIMEOUT = 60 # 秒
 
     def __init__(self, api_key=None, endpoint_id=None, timeout=None, retry_count=None):
         self.api_key = api_key or os.environ.get("ARK_API_KEY")
@@ -27,7 +27,7 @@ class VolcengineArkTextClient:
 
     def generate(self, prompt_text, system_prompt="You are a helpful assistant."):
         """
-        Calls the Ark API to get a completion for the given prompt.
+        调用Ark API获取给定提示的完成结果。
         """
         for attempt in range(self.retry_count):
             try:
@@ -45,18 +45,18 @@ class VolcengineArkTextClient:
                 print(f"Ark API call error (attempt {attempt + 1}): {e}")
                 if attempt < self.retry_count - 1:
                     sleep_time = (2 ** attempt)
-                    print(f"Retrying in {sleep_time} seconds...")
+                    print(f"将在 {sleep_time} 秒后重试...")
                     time.sleep(sleep_time)
                 else:
-                    print("All retries failed for Ark API call.")
-                    # raise  # Or return a default/error message
-                    return "Error: API call failed after multiple retries."
-        return "Error: API call failed after multiple retries." # Should be unreachable
+                    print("Ark API调用的所有重试均失败。")
+                    # raise  # 或返回默认/错误消息
+                    return "错误：API调用在多次重试后失败。"
+        return "错误：API调用在多次重试后失败。" # 理论上不应该到达这里
 
     def close(self):
-        # Ark SDK client might not have an explicit close method,
-        # but if it did, it would go here.
-        print("VolcengineArkTextClient closed (no explicit close needed for Ark SDK).")
+        # Ark SDK客户端可能没有显式的关闭方法，
+        # 但如果有的话，会在这里调用。
+        print("VolcengineArkTextClient已关闭（Ark SDK不需要显式关闭）。")
 
     def __enter__(self):
         return self
@@ -65,12 +65,12 @@ class VolcengineArkTextClient:
         self.close()
 
 # -----------------------------------------------
-# Volcengine Seedream Client (文生图模型)
+# 火山引擎Seedream客户端 (文生图模型)
 # -----------------------------------------------
 class VolcengineSeedreamClient:
     DEFAULT_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
     DEFAULT_RETRY_COUNT = 2
-    DEFAULT_TIMEOUT = 120 # seconds for image generation
+    DEFAULT_TIMEOUT = 120 # 图像生成的超时时间（秒）
 
     def __init__(self, api_key=None, model_id=None, base_url=None, timeout=None, retry_count=None):
         self.api_key = api_key or os.environ.get("ARK_API_KEY")
@@ -89,8 +89,8 @@ class VolcengineSeedreamClient:
 
     def generate_image(self, prompt, size="1024x1024", response_format="url", guidance_scale=3.0, seed=-1, add_watermark=False):
         """
-        Generates an image using the Seedream model.
-        Returns the image URL or b64_json data.
+        使用Seedream模型生成图像。
+        返回图像URL或b64_json数据。
         """
         params = {
             "model": self.model_id,
@@ -116,17 +116,17 @@ class VolcengineSeedreamClient:
                         print("Seedream API call successful (b64_json).")
                         return response.data[0].b64_json
                 else:
-                    raise Exception("API response did not contain image data.")
+                    raise Exception("API响应不包含图像数据。")
 
             except Exception as e:
                 print(f"Seedream API call error (attempt {attempt + 1}): {e}")
                 if attempt < self.retry_count - 1:
                     sleep_time = (2 ** attempt)
-                    print(f"Retrying in {sleep_time} seconds...")
+                    print(f"将在 {sleep_time} 秒后重试...")
                     time.sleep(sleep_time)
                 else:
-                    print("All retries failed for Seedream API call.")
-                    # raise # Or return a specific error indicator
+                    print("Seedream API调用的所有重试均失败。")
+                    # raise # 或返回特定的错误指示器
                     return None
         return None
 

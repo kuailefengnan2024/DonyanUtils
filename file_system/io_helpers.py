@@ -6,11 +6,11 @@ from pathlib import Path
 from datetime import datetime
 
 def ensure_dir_exists(dir_path):
-    """Ensures that a directory exists, creating it if necessary."""
+    """确保目录存在，如有必要则创建它。"""
     Path(dir_path).mkdir(parents=True, exist_ok=True)
 
 def read_text_file(filepath, encoding='utf-8'):
-    """Reads a text file and returns its content."""
+    """读取文本文件并返回其内容。"""
     try:
         with open(filepath, 'r', encoding=encoding) as f:
             return f.read()
@@ -22,7 +22,7 @@ def read_text_file(filepath, encoding='utf-8'):
         return None
 
 def write_text_file(content, filepath, encoding='utf-8'):
-    """Writes content to a text file."""
+    """将内容写入文本文件。"""
     try:
         ensure_dir_exists(Path(filepath).parent)
         with open(filepath, 'w', encoding=encoding) as f:
@@ -33,7 +33,7 @@ def write_text_file(content, filepath, encoding='utf-8'):
         return False
 
 def read_json_file(filepath, encoding='utf-8'):
-    """Reads a JSON file and returns its content."""
+    """读取JSON文件并返回其内容。"""
     try:
         with open(filepath, 'r', encoding=encoding) as f:
             return json.load(f)
@@ -48,7 +48,7 @@ def read_json_file(filepath, encoding='utf-8'):
         return None
 
 def write_json_file(data, filepath, encoding='utf-8', indent=2, ensure_ascii=False):
-    """Writes data to a JSON file."""
+    """将数据写入JSON文件。"""
     try:
         ensure_dir_exists(Path(filepath).parent)
         with open(filepath, 'w', encoding=encoding) as f:
@@ -59,7 +59,7 @@ def write_json_file(data, filepath, encoding='utf-8', indent=2, ensure_ascii=Fal
         return False
 
 def download_file(url, filepath, timeout=30):
-    """Downloads a file from a URL to the specified filepath."""
+    """从URL下载文件到指定的文件路径。"""
     try:
         ensure_dir_exists(Path(filepath).parent)
         response = requests.get(url, timeout=timeout, stream=True)
@@ -76,8 +76,8 @@ def download_file(url, filepath, timeout=30):
         print(f"Error saving downloaded file to {filepath}: {e}")
         return False
 
-def create_placeholder_image(filepath, error_message="Image generation failed", width=512, height=512, color='lightgray'):
-    """Creates a placeholder image (requires Pillow)."""
+def create_placeholder_image(filepath, error_message="图像生成失败", width=512, height=512, color='lightgray'):
+    """创建占位符图像（需要Pillow库）。"""
     try:
         from PIL import Image, ImageDraw, ImageFont
         import textwrap
@@ -99,13 +99,13 @@ def create_placeholder_image(filepath, error_message="Image generation failed", 
         ]
         y_offset = height // 4
         for line in text_lines:
-            wrapped_lines = textwrap.wrap(line, width=int(width / (font.size * 0.6 if hasattr(font, 'size') else 10))) #粗略估计
+            wrapped_lines = textwrap.wrap(line, width=int(width / (font.size * 0.6 if hasattr(font, 'size') else 10))) # 粗略估计
             for wrapped_line in wrapped_lines:
-                try: # PIL 10.x.x
+                try: # PIL 10.x.x版本
                     bbox = draw.textbbox((0,0), wrapped_line, font=font)
                     text_w = bbox[2] - bbox[0]
-                    # text_h = bbox[3] - bbox[1] # not used here
-                except AttributeError: # Older PIL
+                    # text_h = bbox[3] - bbox[1] # 这里未使用
+                except AttributeError: # 较旧的PIL版本
                     text_w, text_h = draw.textsize(wrapped_line, font=font)
 
                 x = (width - text_w) // 2
@@ -115,14 +115,14 @@ def create_placeholder_image(filepath, error_message="Image generation failed", 
         print(f"Placeholder image created: {filepath}")
         return True
     except ImportError:
-        print("Pillow library not found. Cannot create placeholder image. Creating text placeholder instead.")
+        print("未找到Pillow库。无法创建占位符图像。改为创建文本占位符。")
         return create_placeholder_text(filepath.replace(Path(filepath).suffix, "_FAILED.txt"), error_message)
     except Exception as e:
         print(f"Error creating placeholder image {filepath}: {e}")
         return False
 
-def create_placeholder_text(filepath, error_message="Task failed"):
-    """Creates a placeholder text file."""
+def create_placeholder_text(filepath, error_message="任务失败"):
+    """创建占位符文本文件。"""
     content = (
         f"TASK FAILED\n"
         f"Original Filename: {Path(filepath).name}\n"
