@@ -10,7 +10,7 @@ setup(
     install_requires=[
         'requests',
         'Pillow', # 用于占位符图像
-        'volcenginesdkarkruntime', # 用于火山引擎客户端
+        'volcengine-python-sdk[ark]>=3.0.0', # 用于火山引擎客户端
         # 在此添加其他依赖项
     ],
     classifiers=[

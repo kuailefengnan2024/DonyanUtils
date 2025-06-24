@@ -1,0 +1,4 @@
+volcengine-python-sdk[ark]>=3.0.0 
+requests
+Pillow
+httpx
